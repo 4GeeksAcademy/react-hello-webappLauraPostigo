@@ -1,71 +1,79 @@
-import React, { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useActionState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from '../store/appContext';
+
 
 
 const AddContactForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const{actions}=useContext(Context)
+  const [contact, setContact]= useState({name:"", email:"", phone:"", address:""});
+  const navigate = useNavigate ()
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [address, setAddress] = useState('');
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log('Nombre:', name);
-  //   console.log('Email:', email);
-    
-  // };
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    await actions.createContact(contact);
+    navigate("/")
+  };
     
 
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Add a new contact</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Campo de Nombre */}
         <div className="mb-3">
-          <label htmlFor="fullName" className="form-label">
-            Full Name
+          <label htmlForm="name" className="form-label">
+            Name
           </label>
           <input
             type="text"
             className="form-control"
-            id="fullName"
-            placeholder="Full Name"
+            value={contact.name}
+            placeholder="Name" 
+            onChange={(e)=>setContact({...contact, name:e.target.value})}
           />
         </div>
         {/* Campo de Email */}
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
+          <label htmlForm="email" className="form-label">
             Email
           </label>
           <input
             type="email"
             className="form-control"
-            id="email"
-            placeholder="Enter email"
+            value={contact.email}
+            placeholder="email" 
+            onChange={(e)=>setContact({...contact, email:e.target.value})}
           />
         </div>
         {/* Campo de Teléfono */}
         <div className="mb-3">
-          <label htmlFor="phone" className="form-label">
+          <label htmlForm="phone" className="form-label">
             Phone
           </label>
           <input
             type="tel"
             className="form-control"
-            id="phone"
-            placeholder="Enter phone"
+            value={contact.phone}
+            placeholder="phone" 
+            onChange={(e)=>setContact({...contact, phone:e.target.value})}
           />
         </div>
         {/* Campo de Dirección */}
         <div className="mb-3">
-          <label htmlFor="address" className="form-label">
+          <label htmlForm="address" className="form-label">
             Address
           </label>
           <input
             type="text"
             className="form-control"
-            id="address"
-            placeholder="Enter address"
+            value={contact.address}
+            placeholder="address" 
+            onChange={(e)=>setContact({...contact, address:e.target.value})}
           />
         </div>
         {/* Botón Guardar */}

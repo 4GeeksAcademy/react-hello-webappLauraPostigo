@@ -10,6 +10,10 @@ const deleteContact = (id) => {
   actions.deleteContact(id);
   console.log(id)
 };
+useEffect (()=>{
+  actions.getContactList()
+},[]
+)
 
 
   return (
